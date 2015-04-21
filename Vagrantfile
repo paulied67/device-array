@@ -36,28 +36,55 @@ Vagrant.configure("2") do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/trusty64"
 
-  # For ApacheMQ
+  # For PostgreSql
   config.vm.network :forwarded_port,
-    guest: 61616,
-    host: 61616,
-    # The auto_correct option set to true tells Vagrant to 
-    # handle port collisions automatically.
+    guest: 5432,
+    host: 5432,
     auto_correct: true
 
+  # For ApacheMQ web administration
   config.vm.network :forwarded_port,
     guest: 8161,
     host: 28161,
     auto_correct: true
 
+  # For ApacheMQ JMX 
   config.vm.network :forwarded_port,
     guest: 1099,
     host: 21099,
     auto_correct: true
 
-  # For PostgreSql
+  # For ApacheMQ protocols 
   config.vm.network :forwarded_port,
-    guest: 5432,
-    host: 5432,
+    guest: 61616,
+    host: 61616,
+    id: 'tcp',
+    # The auto_correct option set to true tells Vagrant to 
+    # handle port collisions automatically.
+    auto_correct: true
+
+  config.vm.network :forwarded_port, 
+    guest: 1833,
+    host: 1833,
+    id: 'mqtt',
+    auto_correct: true
+
+  config.vm.network :forwarded_port, 
+    guest: 61613,
+    host: 61613,
+    id: 'stomp',
+    auto_correct: true
+
+  config.vm.network :forwarded_port, 
+    guest: 61614,
+    host: 61614,
+    id: 'ws',
+    auto_correct: true
+
+  config.vm.network :forwarded_port, 
+    guest: 5672,
+    host: 5672,
+    id: 'ampq',
     auto_correct: true
 
   # For Apollo 1.7.1
@@ -71,29 +98,6 @@ Vagrant.configure("2") do |config|
     host: 61681,
     auto_correct: true
 
-  config.vm.network :forwarded_port, 
-    guest: 61613,
-    host: 61613,
-    id: 'tcp',
-    auto_correct: true
-
-  config.vm.network :forwarded_port, 
-    guest: 61614,
-    host: 61614,
-    id: 'tls',
-    auto_correct: true
-
-  config.vm.network :forwarded_port, 
-    guest: 61623,
-    host: 61623,
-    id: 'ws',
-    auto_correct: true
-
-  config.vm.network :forwarded_port, 
-    guest: 61624,
-    host: 61624,
-    id: 'wss',
-    auto_correct: true
 
   #<connector id="tcp" bind="tcp://0.0.0.0:61613" connection_limit="2000"/>
   #<connector id="tls" bind="tls://0.0.0.0:61614" connection_limit="2000"/>
